@@ -14,18 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button b = null;
-      // b.setOnClickListener( click -> Log.i("Click", "Click"));
-
-        b.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.i("Hi", "There");
-            }
-        });
-
+        //a new comment here.
 
     }
 }
