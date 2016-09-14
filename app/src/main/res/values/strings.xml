@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InClassExamples</string>
+    <string name="message">My Message</string>
 </resources>
