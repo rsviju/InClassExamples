@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -69,6 +70,7 @@ if(savedInstanceState!= null)
 
                 MainActivity.this.startActivity( new Intent(MainActivity.this, SecondActivity.class )  );
 
+          //      MainActivity.this.startActivity( new Intent( Intent.ACTION_CALL));
             }
         });
 
