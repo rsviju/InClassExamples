@@ -1,6 +1,7 @@
 package com.example.etorunski.inclassexamples;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -39,7 +40,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //This line makes the app fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE);getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+if(savedInstanceState!= null)
+{
 
+    int passedMessage = savedInstanceState.getInt("GreetingMessage");
+
+    passedMessage++;
+}
 
         //This commented out code shows that I can dynamically load a layout by code.
         // if(Math.random() < 0.5)
@@ -54,6 +61,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //Get a reference to the vibration motor. It vibrates for 500 ms in the button click
         final Vibrator vb = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        Button b2 = (Button) findViewById(R.id.b2);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MainActivity.this.startActivity( new Intent(MainActivity.this, SecondActivity.class )  );
+
+            }
+        });
 
 
         final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
@@ -119,7 +136,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         //See if the Sensor type is on your phone: Change what comes after Sensor. to get other sensors
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //This function will call onSensorChanged whenever the sensor values have changed
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -151,4 +168,10 @@ public class MainActivity extends Activity implements SensorEventListener {
     //end of required interface functions
 //End of sensor listener interface
 
+
+
+    public void onSaveInstanceState(Bundle bun)
+    {
+        bun.putString("GreetingMessage", "I'm from Main Activity");
+    }
 }
