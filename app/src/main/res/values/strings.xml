@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">InClassExamples</string>
     <string name="message">My Message</string>
-    <string name="Vibrate">Vibrate phone</string>
+    <string name="Vibrate">Vibrate</string>
+    <string name="SecondActivityQuestion">what did the fox say?</string>
+    <string name="SecondActivityAnswer">Type your answer here</string>
 </resources>

@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Vibrator;
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,21 +34,22 @@ public class MainActivity extends Activity implements SensorEventListener {
  //want to get access to one sensor:
     private Sensor mSensor;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //This line makes the app fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE);getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-if(savedInstanceState!= null)
-{
 
-    int passedMessage = savedInstanceState.getInt("GreetingMessage");
+        //if the bundle is not null (if this isn't the first time this activity starts)
+        if(savedInstanceState!= null)
+        {
+            int passedMessage = savedInstanceState.getInt("GreetingMessage");
 
-    passedMessage++;
-}
+            passedMessage++;
+        }
+
+
 
         //This commented out code shows that I can dynamically load a layout by code.
         // if(Math.random() < 0.5)
@@ -67,12 +69,45 @@ if(savedInstanceState!= null)
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MainActivity.this.startActivity( new Intent(MainActivity.this, SecondActivity.class )  );
-
-          //      MainActivity.this.startActivity( new Intent( Intent.ACTION_CALL));
+                //6 is my request code:
+                MainActivity.this.startActivityForResult( new Intent(MainActivity.this, SecondActivity.class ) , 6 );
             }
         });
+
+
+        //Send an email:
+        Button b3 = (Button) findViewById(R.id.b3);
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Send an email:
+                Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO );
+                sendEmailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+
+                //A string array of all "To" recipient email addresses.
+                String toAddresses [] = {"torunse@algonquincollege.com", "billg@microsoft.com", "andy_Rubin@google.com"};
+                sendEmailIntent.putExtra(Intent.EXTRA_EMAIL,  toAddresses);
+
+                //A string array of all "CC" recipient email addresses.
+                String ccAddresses [] = {"copy1@algonquincollege.com", "copy2@microsoft.com"};
+                sendEmailIntent.putExtra(Intent.EXTRA_CC,  ccAddresses);
+
+                //A string array of all "BCC" recipient email addresses.
+                String bccAddresses [] = {"bcopy1@algonquincollege.com", "bcopy2@microsoft.com"};
+                sendEmailIntent.putExtra(Intent.EXTRA_BCC, bccAddresses);
+
+                //set the subject:
+                sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Good demo");
+
+                //set the body:
+                sendEmailIntent.putExtra(Intent.EXTRA_TEXT, "this is the body of the email");
+
+                //Start the email activity with the data I've prepared. When it returns, request code will be 3:
+                MainActivity.this.startActivityForResult( sendEmailIntent , 3 );
+            }
+        });
+
 
 
         final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
@@ -141,7 +176,7 @@ if(savedInstanceState!= null)
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //This function will call onSensorChanged whenever the sensor values have changed
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    //    mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 //end reading sensors
     }
 
@@ -168,12 +203,21 @@ if(savedInstanceState!= null)
     //I don't care about this function, only the sensor changed function
     public void onAccuracyChanged (Sensor sensor, int accuracy) {  }
     //end of required interface functions
-//End of sensor listener interface
+    //End of sensor listener interface
 
-
-
-    public void onSaveInstanceState(Bundle bun)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        bun.putString("GreetingMessage", "I'm from Main Activity");
+        String s = "";
+        if(requestCode == 6)
+        {
+            Log.i("Activity result", "request code is 6, meaning the SecondActivity has finished");
+            Log.w("The fox said:", s = data.getStringExtra("MyAnswer"));
+        }
+        else if(requestCode == 3)
+        {
+            Log.i("Activity result", "request code is 3, meaning the email Activity has finished");
+        }
+        s.length();
     }
+
 }

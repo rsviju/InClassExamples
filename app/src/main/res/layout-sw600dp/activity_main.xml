@@ -24,19 +24,19 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="kk"
+            android:text="@string/Vibrate"
             android:id="@+id/b1"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Second Activity"
             android:id="@+id/b2" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Send Email"
             android:id="@+id/b3" />
 
         <RadioButton
